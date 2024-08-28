@@ -308,14 +308,80 @@ int main()
 
 ### **Задания B**
 
-1. Напишите функцию bool hamming(int n), которая принимает целое число n и проверяет,
-является ли оно числом Хэмминга. Число Хэмминга — число, не имеющее других простых
+1. Напишите функцию bool hamming(int n), которая принимает целое число *n* и проверяет,
+является ли оно *числом Хэмминга*. Число Хэмминга — число, не имеющее других простых
+делителей, кроме 2, 3 или 5
 Напишите с ее помощью программу, которая вводит целые числа 0 < M ⩽ N и выводит
 все числа Хэмминга на диапазоне [M,N ] в порядке возрастания.
+*Пример*.
 Ввод: 9 20 Вывод: 9 10 12 15 16 18 20
 Надо unit-тестировать только функцию hamming.
+```
+//#define NDEBUG
+#include<cassert>
+#include<iostream>
+using namespace std;
 
-2 Возьмем любое натуральное число. Если оно четное — разделим его пополам, если нечет-
+bool hamming(int n)
+{
+    while (n % 2 == 0) {
+        n /= 2;
+    }
+    while (n % 3 == 0) {
+        n /= 3;
+    }
+    while (n % 5 == 0) {
+        n /= 5;
+    }
+    if (n == 1) return true;
+    return false;
+}
+
+
+int main()
+{
+    int m, n;
+    cin >> m >> n;
+    for (int i = m; i <= n; i++)
+    {
+        if (hamming(i))
+        {
+            cout << i << ' ';
+        }
+    }
+    //Dulustan's tests
+    {
+        assert(hamming(1));
+        assert(hamming(8));
+        assert(hamming(12));
+        assert(hamming(24));
+        assert(hamming(45));
+        assert(hamming(384));
+        assert(!hamming(14));
+        assert(!hamming(26));
+        assert(!hamming(44));
+        assert(!hamming(365));
+#ifndef NDEBUG
+        cout << endl <<"SUCCESS 1!" << endl;
+#endif   
+    }
+
+    //Придумайте 3 положительных и 3 отрицательных теста.
+    //Student's tests
+    {
+        assert(hamming(128));
+        assert(hamming(12));
+        assert(hamming(800));
+        assert(!hamming(7));
+        assert(!hamming(17));
+        assert(!hamming(101));
+#ifndef NDEBUG
+        cout << "SUCCESS 2!" << endl;
+#endif     
+    }
+}
+```
+2. Возьмем любое натуральное число. Если оно четное — разделим его пополам, если нечет-
 ное — умножим на 3, прибавим 1 и разделим пополам. Повторим эти действия с вновь
 полученным числом. Гипотеза Сиракуз гласит, что независимо от выбора первого числа
 Напишите функцию int Syracuse(int n), которая проверяет, за сколько шагов число n
