@@ -20,16 +20,16 @@ long long power(long long x, unsigned k), которая вычисляет x<su
 using namespace std;
 #include<cassert>
 
-long long power(long long x, int p) {
+long long power(long long x, int k) {
     long long res = 1;
-    for (int i = 0; i < p; ++i)
+    for (int i = 0; i < k; ++i)
         res = res * x;
     return res;
 }
 int main() {
-     long long x,p; 
-     cin >> x >> p;
-     cout << power(x, p) << endl;
+     long long x,k; 
+     cin >> x >> k;
+     cout << power(x, k) << endl;
     //Dulustan's tests
     {
         assert(power(1, 100) == 1);
@@ -54,7 +54,7 @@ int main() {
     }
 }
 ```
-x - число которое надо возвесьти в степень *p* раз. + сделали все числа в long long формате.
+x - число которое надо возвесьти в степень *k* раз. сделан с помощью цикла где каждый до *k* раз res *= x.
 
 2. C помощью написанной в предыдущей задаче функции power (ее надо скопировать в вашу
 программу), напишите функцию
@@ -109,7 +109,7 @@ int main() {
     }
 }
 ```
-Числа идут от 1<sup>*p*</sup> + 2 <sup>*p*</sup> до + n<sup>*p*</sup>, где p - степень. Расположил функцию power выше т.к. она задействована в функции sum_p, где с помощью цикла передовал числа в power, возвращал, суммировал и по циклу.
+Числа идут от 1<sup>*p*</sup> + 2 <sup>*p*</sup> до + n<sup>*p*</sup>, где p - степень. Расположил функцию power выше т.к. она задействована в функции sum_p, где с помощью цикла передовал числа в power, возвращал, суммировал и по циклу. В конце цикла ретурнул ответ.
 
 3. Напишите функцию
 double dist(double x1, double y1, double x2, double y2),
@@ -265,7 +265,7 @@ int main()
 Напишите с ее помощью программу, которая вводит целые числа 0 < *M* ⩽ *N* и выводит
 все совершенные числа на диапазоне [*M*,*N* ] в порядке возрастания.
 *Пример*.
-Ввод: 3 500 Вывод: 6 28 496
+Ввод: 3500 Вывод: 6 28 496
 Надо unit-тестировать только функцию perfect.
 ```
 //#define NDEBUG
@@ -604,15 +604,12 @@ int my_gcd(int a, int b)
         return d;
     }
 }
-
 void simplify(int& num, int& denom)
 {
     int A = my_gcd(num, denom);
-    num /= A;
-    denom /= A;
+    num = num / A;
+    denom = denom / A;
 }
-
-
 int main()
 {
     /*int num, denom;
@@ -691,6 +688,7 @@ int main()
     }
 }
 ```
+Находим НОД с помощью *алгоритма Евклида* (my_gcd), а simplify т.е упрощения путём деления числа с НОД.
 
 5. Напишите функцию void intersect(int a, int b, int c, int d, int &l, int &r), ко-
 торая находит пересечение [*l, r*] отрезков [*a, b*] и [*c, d*]. Если эти отрезки не пересекаются,
