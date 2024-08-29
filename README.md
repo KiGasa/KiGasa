@@ -449,12 +449,106 @@ int main()
 }
 ```
 
-3 Цифровой корень натурального числа получается следующим образом: cкладываем все
+3. Цифровой корень натурального числа получается следующим образом: cкладываем все
 цифры данного числа — получаем новое число. Повторяем процесс, пока в результате не
 будет получено однозначное число, которое и называется цифровым корнем числа.
 Напишите функцию void digit_root(long long &n), которое превращает n в свой циф-
 Надо unit-тестировать функцию digit_root.
+```
+//#define NDEBUG
+#include<cassert>
+#include<iostream>
+using namespace std;
+int len(long long n)
+{
+    int len = 0;
+    if (n == 0) return 1;
+    while (n)
+    {
+        len++;
+        n /= 10;
+    }
+    return len;
+}
+long long sum(long long n)
+{
+    long long sum = 0;
+    while (n)
+    {
+        sum = sum + (n % 10);
+        n = n / 10;
+    }
+    return sum;
+}
+void digit_root(long long& n)
+{
+    while (len(n) != 1)
+    {
+        n = sum(n);
+    }
+}
+int main()
+{
+    long long n; cin >> n;
+    digit_root(n);
+    cout << n << endl;
+    //Dulustan's tests
+    {
+        {
+            long long x = 8; digit_root(x);
+            assert(x == 8);
+        }
+        {
+            long long x = 25; digit_root(x);
+            assert(x == 7);
+        }
+        {
+            long long x = 99; digit_root(x);
+            assert(x == 9);
+        }
+        {
+            long long x = 987; digit_root(x);
+            assert(x == 6);
+        }
+        {
+            long long x = 777'777'777'777; digit_root(x);
+            assert(x == 3);
+        }
 
+#ifndef NDEBUG
+        cout << "SUCCESS 1!" << endl;
+#endif 
+    }
+
+    ////Придумайте 5 тестов.
+    ////Student's tests
+    {
+        {
+            long long x = 231'123'111; digit_root(x);
+            assert(x == 6);
+        }
+        {
+            long long x = 111'222'333; digit_root(x);
+            assert(x == 9);
+        }
+        {
+            long long x = 7479; digit_root(x);
+            assert(x == 9);
+        }
+        {
+            long long x = 21; digit_root(x);
+            assert(x == 3);
+        }
+        {
+            long long x = 0; digit_root(x);
+            assert(x == 0);
+        }
+#ifndef NDEBUG
+        cout << "SUCCESS 2!" << endl;
+#endif  
+    }
+}
+```
 4 Напишите функцию int my_gcd(int a, int b), которая находит НОД (наибольший об-
 щий делитель) чисел a и b. Используйте реализацию алгоритма Евклида через цикл while.
 Напишите функцию void simplify(int &num, int &denom), которая сокращает дробь
@@ -462,6 +556,131 @@ num , используя написанную вами функцию my_gcd. Т
 чтобы она делала ввод числителя и знаменателя, и выводила числитель и знаменатель
 сокращенной дроби. А само сокращение должно делаться через вашу функцию.
 Надо unit-тестировать обе функции my_gcd и simplify.
+```
+//#define NDEBUG
+#include<cassert>
+#include<iostream>
+using namespace std;
+
+int my_gcd(int a, int b)
+{
+    int c, d, S;
+    if (a % b == 0) return b;
+    if (b % a == 0) return a;
+    if (a > b)
+    {
+        c = a % b;
+        if (b % c == 0) return c;
+        d = b % c;
+        while (c % d != 0)
+        {
+            S = c % d;
+            c = d;
+            d = S;
+        }
+        return d;
+    }
+    else
+    {
+        c = b % a;
+        if (a % c == 0) return c;
+        d = a % c;
+        while (c % d != 0)
+        {
+            S = c % d;
+            c = d;
+            d = S;
+        }
+        return d;
+    }
+}
+
+void simplify(int& num, int& denom)
+{
+    int A = my_gcd(num, denom);
+    num /= A;
+    denom /= A;
+}
+
+
+int main()
+{
+    /*int num, denom;
+    cin >> num >> denom;
+    simplify(num, denom);
+    cout << num << '/' << denom<<endl;*/
+
+
+    //Dulustan's tests GCD
+    {
+        assert(my_gcd(12, 20) == 4);
+        assert(my_gcd(35, 56) == 7);
+        assert(my_gcd(100, 9900) == 100);
+        assert(my_gcd(999, 2775) == 111);
+#ifndef NDEBUG
+        cout << "SUCCESS 1!" << endl;
+#endif 
+    }
+
+    //Придумайте 4 теста.
+    //Student's tests GCD
+    {
+        assert(my_gcd(84, 90) == 6);
+        assert(my_gcd(15, 28) == 1);
+        assert(my_gcd(140, 96) == 4);
+        assert(my_gcd(24, 8) == 8);
+#ifndef NDEBUG
+        cout << "SUCCESS 2!" << endl;
+#endif 
+    }
+
+    //Dulustan's tests simplify
+    {
+        int a = 15, b = 20;
+        simplify(a, b);
+        assert(a == 3); assert(b == 4);
+
+        a = 48, b = 120;
+        simplify(a, b);
+        assert(a == 2); assert(b == 5);
+
+        a = 1680, b = 4620;
+        simplify(a, b);
+        assert(a == 4); assert(b == 11);
+#ifndef NDEBUG
+        cout << "SUCCESS 3!" << endl;
+#endif 
+    }
+
+    //Придумайте 4 теста.
+    //Student's tests simplify
+    {
+        {
+            int a = 1000, b = 30;
+            simplify(a, b);
+            assert(a == 100); assert(b == 3);
+        }
+        {
+            int a = 30564, b = 11232;
+            simplify(a, b);
+            assert(a == 283); assert(b = 104);
+        }
+        {
+            int a = 312312, b = 66666666;
+            simplify(a, b);
+            assert(a == 4732); assert(b == 1010101);
+        }
+        {
+            int a = 1111, b = 2222;
+            simplify(a, b);
+            assert(a == 1); assert(b == 2);
+        }
+#ifndef NDEBUG
+        cout << "SUCCESS 4!" << endl;
+#endif 
+    }
+}
+```
 
 5 Напишите функцию void intersect(int a, int b, int c, int d, int &l, int &r), ко-
 торая находит пересечение [l, r] отрезков [a, b] и [c, d]. Если эти отрезки не пересекаются,
