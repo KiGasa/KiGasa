@@ -390,6 +390,64 @@ int main()
 Напишите с ее помощью программу, которая вводит целые числа 0 < M ⩽ N и выводит
 количество шагов Гипотезы Сиракуз для каждого числа на диапазоне [M,N ].
 Надо unit-тестировать только функцию Syracuse.
+```
+//#define NDEBUG
+#include<cassert>
+#include<iostream>
+using namespace std;
+int Syracuse(int n)
+{
+    int x = 0;
+    while (n != 1)
+    {
+        if (n % 2 == 0) {
+            n = n / 2; 
+        }
+        else
+        {
+            n *= 3;
+            n++;
+            n = n / 2;
+        }
+        x++;
+    }
+    return x;
+}
+int main()
+{
+    int m, n;
+    cin >> m >> n;
+    for (int i = m; i <= n; ++i)
+    {
+        cout << i << ' ' << Syracuse(i) << endl;
+    }
+
+    //Dulustan's tests
+    {
+        assert(Syracuse(1) == 0);
+        assert(Syracuse(2) == 1);
+#ifndef NDEBUG
+        cout << "SUCCESS 1!" << endl;
+#endif    
+    }
+    //Тут я поленился вычислять тесты, оставляю это дело за вами.
+    //Придумайте 8 тестов.
+    //Student's tests
+    {
+        assert(Syracuse(200) == 19);
+        assert(Syracuse(4) == 2);
+        assert(Syracuse(8) == 3);
+        assert(Syracuse(9) == 13);
+        assert(Syracuse(115) == 23);
+        assert(Syracuse(32) == 5);
+        assert(Syracuse(72) == 16);
+        assert(Syracuse(920) == 26);
+#ifndef NDEBUG
+        cout << "SUCCESS 2!" << endl;
+#endif    
+    }
+}
+```
 
 3 Цифровой корень натурального числа получается следующим образом: cкладываем все
 цифры данного числа — получаем новое число. Повторяем процесс, пока в результате не
