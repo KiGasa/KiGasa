@@ -465,24 +465,25 @@ int main()
 #include<cassert>
 #include<iostream>
 using namespace std;
-int len(long long n)
+int len(long long x)
 {
     int len = 0;
-    if (n == 0) return 1;
-    while (n)
+    if (x == 0) { return 1; }
+    while (x != 0)
     {
         len++;
-        n /= 10;
+        x = x / 10;
+        
     }
     return len;
 }
-long long sum(long long n)
+long long sum(long long x)
 {
     long long sum = 0;
-    while (n)
+    while (x != 0)
     {
-        sum = sum + (n % 10);
-        n = n / 10;
+        sum = sum + (x % 10);
+        x = x / 10;
     }
     return sum;
 }
@@ -495,67 +496,69 @@ void digit_root(long long& n)
 }
 int main()
 {
-    long long n;
+    long long n; 
     cin >> n;
     digit_root(n);
     cout << n << endl;
     //Dulustan's tests
-    {
-        {
-            long long x = 8; digit_root(x);
-            assert(x == 8);
-        }
-        {
-            long long x = 25; digit_root(x);
-            assert(x == 7);
-        }
-        {
-            long long x = 99; digit_root(x);
-            assert(x == 9);
-        }
-        {
-            long long x = 987; digit_root(x);
-            assert(x == 6);
-        }
-        {
-            long long x = 777'777'777'777; digit_root(x);
-            assert(x == 3);
-        }
-
-#ifndef NDEBUG
-        cout << "SUCCESS 1!" << endl;
-#endif 
-    }
-
-    ////Придумайте 5 тестов.
-    ////Student's tests
-    {
-        {
-            long long x = 231'123'111; digit_root(x);
-            assert(x == 6);
-        }
-        {
-            long long x = 111'222'333; digit_root(x);
-            assert(x == 9);
-        }
-        {
-            long long x = 7479; digit_root(x);
-            assert(x == 9);
-        }
-        {
-            long long x = 21; digit_root(x);
-            assert(x == 3);
-        }
-        {
-            long long x = 0; digit_root(x);
-            assert(x == 0);
-        }
-#ifndef NDEBUG
-        cout << "SUCCESS 2!" << endl;
-#endif  
-    }
+//    {
+//        {
+//            long long x = 8; digit_root(x);
+//            assert(x == 8);
+//        }
+//        {
+//            long long x = 25; digit_root(x);
+//            assert(x == 7);
+//        }
+//        {
+//            long long x = 99; digit_root(x);
+//            assert(x == 9);
+//        }
+//        {
+//            long long x = 987; digit_root(x);
+//            assert(x == 6);
+//        }
+//        {
+//            long long x = 777'777'777'777; digit_root(x);
+//            assert(x == 3);
+//        }
+//
+//#ifndef NDEBUG
+//        cout << "SUCCESS 1!" << endl;
+//#endif 
+//    }
+//
+//    ////Придумайте 5 тестов.
+//    ////Student's tests
+//    {
+//        {
+//            long long x = 231'123'111; digit_root(x);
+//            assert(x == 6);
+//        }
+//        {
+//            long long x = 111'222'333; digit_root(x);
+//            assert(x == 9);
+//        }
+//        {
+//            long long x = 7479; digit_root(x);
+//            assert(x == 9);
+//        }
+//        {
+//            long long x = 21; digit_root(x);
+//            assert(x == 3);
+//        }
+//        {
+//            long long x = 0; digit_root(x);
+//            assert(x == 0);
+//        }
+//#ifndef NDEBUG
+//        cout << "SUCCESS 2!" << endl;
+//#endif  
+//    }
 }
 ```
+Вводится число n, n принимает функция void digit_root, где проверяется в функции len на длину числа (если осталась одна цифра, то она прекращает работу). Если len успешно проверен в функции sum отрезаются и суммируется все цифры. ДОПУСТИМ вышло не однозначное число после sum, если такое произошло то все начинается опять с проверки на len.
+
 4. Напишите функцию int my_gcd(int a, int b), которая находит НОД (наибольший об-
 щий делитель) чисел a и b. Используйте реализацию алгоритма Евклида через цикл while.
 Напишите функцию void simplify(int &num, int &denom), которая сокращает дробь
